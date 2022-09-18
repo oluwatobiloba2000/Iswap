@@ -1,4 +1,3 @@
-import {Text} from '@ui-kitten/components';
 import React from 'react';
 import * as S from './style';
 
