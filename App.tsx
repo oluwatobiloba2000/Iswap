@@ -13,7 +13,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as eva from '@eva-design/eva';
 import React from 'react';
-import {LoginPage} from './src/pages/auth/login';
+import {LoginPage} from './src/screens/auth/login';
 
 const Stack = createNativeStackNavigator();
 
