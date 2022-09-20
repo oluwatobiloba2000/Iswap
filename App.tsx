@@ -9,43 +9,22 @@
  */
 
 import {ApplicationProvider} from '@ui-kitten/components';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as eva from '@eva-design/eva';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
+import {LoginPage} from './src/screens/auth/login';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Input, Button, AuthLayout} from './src/components';
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <AuthLayout title="Login">
-            <Input placeholder="email" />
-            <Input placeholder="password" secureTextEntry />
-
-            <Button> Submit </Button>
-          </AuthLayout>
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={LoginPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </ApplicationProvider>
   );
 };
