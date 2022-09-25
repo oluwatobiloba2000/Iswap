@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './style';
 
-export const Button = (props: S.StyledButtonProps) => {
-  return <S.Button {...props}> </S.Button>;
+export interface ButtonProps extends S.StyledButtonProps {}
+export const Button = (props: ButtonProps) => {
+  return <S.Button {...props} />;
 };
