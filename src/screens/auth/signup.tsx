@@ -1,14 +1,10 @@
+import {Input, Button, AuthLayout} from '../../components';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../../../src/config/firebase';
 import React, {useState} from 'react';
-import {AuthLayout, Button, Input} from '../../components';
 import {SafeAreaView, ScrollView} from 'react-native';
-import {Text} from '@ui-kitten/components';
-import {signInWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../../config/firebase';
 
-type LoginPageProps = {
-  navigation: any;
-};
-export function LoginPage({navigation}: LoginPageProps) {
+export const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,16 +15,9 @@ export function LoginPage({navigation}: LoginPageProps) {
 
   const [isValid, setIsValid] = useState(false);
 
-  const submit = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((res: any) => {
-        console.log(res);
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  };
-
+  /**
+   * TODO: convert to hooks so all forms can use it
+   */
   const validate = () => {
     const emailRegex = new RegExp(
       '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$',
@@ -47,10 +36,20 @@ export function LoginPage({navigation}: LoginPageProps) {
     }
   };
 
+  const submit = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((res: any) => {
+        console.log(res);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
+
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <AuthLayout title="Login">
+        <AuthLayout title="SignUp">
           <Input
             placeholder="email"
             onChange={event => setEmail(event.nativeEvent.text)}
@@ -68,20 +67,8 @@ export function LoginPage({navigation}: LoginPageProps) {
           <Button onPress={submit} disabled={isValid}>
             Submit
           </Button>
-          <Text
-            category="c2"
-            status="info"
-            onPress={() => navigation.navigate('SignUp')}>
-            sign Up
-          </Text>
-          <Text
-            category="c2"
-            status="info"
-            onPress={() => navigation.navigate('Home')}>
-            go home
-          </Text>
         </AuthLayout>
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
