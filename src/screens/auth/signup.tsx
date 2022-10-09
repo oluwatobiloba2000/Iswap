@@ -2,9 +2,15 @@ import {Input, Button, AuthLayout} from '../../components';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../../../src/config/firebase';
 import React, {useState} from 'react';
-import {SafeAreaView, ScrollView} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {colorTheme} from '../../theme';
+import {Text} from '@ui-kitten/components';
 
-export const SignUp = () => {
+type ISignupPageProps = {
+  navigation: any;
+};
+
+export const SignUp = ({navigation}: ISignupPageProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -49,7 +55,15 @@ export const SignUp = () => {
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <AuthLayout title="SignUp">
+        <AuthLayout
+          title="Create An Account"
+          titleStyles={styles.authLayoutTitle}>
+          <Input
+            placeholder="name"
+            onChange={event => setEmail(event.nativeEvent.text)}
+            status={formErrors.email ? 'danger' : 'basic'}
+            onBlur={validate}
+          />
           <Input
             placeholder="email"
             onChange={event => setEmail(event.nativeEvent.text)}
@@ -64,11 +78,35 @@ export const SignUp = () => {
             onBlur={validate}
           />
 
-          <Button onPress={submit} disabled={isValid}>
-            Submit
+          <Button style={styles.SignUpBtn} onPress={submit} disabled={isValid}>
+            Create account
+          </Button>
+
+          <Text style={styles.textCenter} category="c2" status="info">
+            or
+          </Text>
+
+          <Button status="info" onPress={() => navigation.navigate('Login')}>
+            Login
           </Button>
         </AuthLayout>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  authLayoutTitle: {
+    textAlign: 'center',
+    marginBottom: 20,
+    color: colorTheme.primary,
+  },
+  SignUpBtn: {
+    backgroundColor: colorTheme.primary,
+  },
+  textCenter: {
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+});
