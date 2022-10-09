@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {AuthLayout, Button, Input} from '../../components';
-import {SafeAreaView, ScrollView} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {Text} from '@ui-kitten/components';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../../config/firebase';
+import {colorTheme} from '../../theme';
 
 type LoginPageProps = {
   navigation: any;
@@ -50,7 +51,7 @@ export function LoginPage({navigation}: LoginPageProps) {
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <AuthLayout title="Login">
+        <AuthLayout title="Login" titleStyles={styles.authLayoutTitle}>
           <Input
             placeholder="email"
             onChange={event => setEmail(event.nativeEvent.text)}
@@ -65,23 +66,39 @@ export function LoginPage({navigation}: LoginPageProps) {
             onBlur={validate}
           />
 
-          <Button onPress={submit} disabled={isValid}>
-            Submit
+          <Button style={styles.loginBtn} onPress={submit} disabled={isValid}>
+            Login
           </Button>
-          <Text
-            category="c2"
-            status="info"
-            onPress={() => navigation.navigate('SignUp')}>
-            sign Up
+          <Text style={styles.textCenter} category="c2" status="info">
+            or
           </Text>
-          <Text
+          <Button status="info" onPress={() => navigation.navigate('SignUp')}>
+            sign Up
+          </Button>
+          {/* <Text
             category="c2"
             status="info"
             onPress={() => navigation.navigate('Home')}>
             go home
-          </Text>
+          </Text> */}
         </AuthLayout>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  authLayoutTitle: {
+    textAlign: 'center',
+    marginBottom: 20,
+    color: colorTheme.primary,
+  },
+  textCenter: {
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  loginBtn: {
+    backgroundColor: colorTheme.primary,
+  },
+});
